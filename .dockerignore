@@ -8,3 +8,6 @@ coverage
 cypress
 .turbo
 .DS_Store
+
+.evershop
+.env
