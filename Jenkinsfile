@@ -77,7 +77,7 @@ pipeline {
 
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
-                              -Dsonar.projectKey=evershop \
+                              -Dsonar.projectKey=Evershop \
                               -Dsonar.projectName=Evershop \
                               -Dsonar.sources=.
                         """
