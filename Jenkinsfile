@@ -13,13 +13,6 @@ pipeline {
             }
         }
 
-        stage('Check Node') {
-            steps {
-                sh 'node --version'
-                sh 'npm --version'
-            }
-        }
-
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
@@ -41,6 +34,19 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'npm run build'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        sonar-scanner \
+                          -Dsonar.projectKey=evershop \
+                          -Dsonar.projectName=Evershop \
+                          -Dsonar.sources=.
+                    '''
+                }
             }
         }
     }
