@@ -1,11 +1,22 @@
 pipeline {
     agent any
 
+    tools {
+        nodejs 'Node20'
+    }
+
     stages {
 
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Check Node') {
+            steps {
+                sh 'node --version'
+                sh 'npm --version'
             }
         }
 
