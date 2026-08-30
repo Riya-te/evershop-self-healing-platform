@@ -21,6 +21,30 @@ pipeline {
             }
         }
 
+        stage('Check Tools') {
+            steps {
+                sh '''
+                    echo "Node:"
+                    node --version
+
+                    echo "NPM:"
+                    npm --version
+
+                    echo "Docker:"
+                    docker --version
+
+                    echo "AWS:"
+                    aws --version
+
+                    echo "Kubectl:"
+                    kubectl version --client
+
+                    echo "Trivy:"
+                    trivy --version
+                '''
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
@@ -48,12 +72,16 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        sonar-scanner \
-                          -Dsonar.projectKey=evershop \
-                          -Dsonar.projectName=Evershop \
-                          -Dsonar.sources=.
-                    '''
+                    script {
+                        def scannerHome = tool 'SonarScanner'
+
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                              -Dsonar.projectKey=evershop \
+                              -Dsonar.projectName=Evershop \
+                              -Dsonar.sources=.
+                        """
+                    }
                 }
             }
         }
@@ -68,7 +96,10 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                sh 'docker build -t $ECR_IMAGE .'
+                sh '''
+                    docker build \
+                      -t $ECR_IMAGE .
+                '''
             }
         }
 
@@ -90,11 +121,12 @@ pipeline {
                      credentialsId: 'aws-credentials']
                 ]) {
                     sh '''
-                        aws ecr get-login-password --region $AWS_REGION \
+                        aws ecr get-login-password \
+                          --region $AWS_REGION \
                         | docker login \
-                        --username AWS \
-                        --password-stdin \
-                        $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+                          --username AWS \
+                          --password-stdin \
+                          $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
                     '''
                 }
             }
@@ -102,7 +134,9 @@ pipeline {
 
         stage('Push to ECR') {
             steps {
-                sh 'docker push $ECR_IMAGE'
+                sh '''
+                    docker push $ECR_IMAGE
+                '''
             }
         }
 
@@ -117,7 +151,8 @@ pipeline {
                           --region $AWS_REGION \
                           --name resilientops-eks
 
-                        kubectl set image deployment/evershop \
+                        kubectl set image \
+                          deployment/evershop \
                           evershop=$ECR_IMAGE \
                           -n resilientops
                     '''
@@ -143,11 +178,15 @@ pipeline {
 
     post {
         success {
-            echo 'Evershop CI/CD pipeline completed successfully!'
+            echo '=========================================='
+            echo 'Evershop CI/CD Pipeline SUCCESSFUL!'
+            echo '=========================================='
         }
 
         failure {
-            echo 'Pipeline failed. Check the failed stage above.'
+            echo '=========================================='
+            echo 'Pipeline FAILED - check the stage above'
+            echo '=========================================='
         }
     }
 }
