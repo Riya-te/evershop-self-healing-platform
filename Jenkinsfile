@@ -161,19 +161,26 @@ pipeline {
         }
 
         stage('Verify Deployment') {
-            steps {
-                sh '''
-                    kubectl rollout status \
-                      deployment/evershop \
-                      -n resilientops \
-                      --timeout=180s
+         steps {
+           withCredentials([
+             [$class: 'AmazonWebServicesCredentialsBinding',
+             credentialsId: 'aws-credentials']
+        ]) {
+            sh '''
+                aws sts get-caller-identity
 
-                    kubectl get pods \
-                      -n resilientops \
-                      -l app=evershop
-                '''
-            }
+                kubectl rollout status \
+                  deployment/evershop \
+                  -n resilientops \
+                  --timeout=180s
+
+                kubectl get pods \
+                  -n resilientops \
+                  -l app=evershop
+            '''
         }
+    }
+}
     }
 
     post {
