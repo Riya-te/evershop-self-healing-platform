@@ -2,19 +2,19 @@
 
 # 🚀 ResilientOps – Evershop Self-Healing Platform
 
-### Kubernetes • AWS EKS • Docker • Jenkins • ArgoCD • HPA • Prometheus • Grafana
+### AWS EKS • Kubernetes • Docker • Jenkins • ArgoCD • HPA • Prometheus • Grafana
 
 <p>
   <img src="https://img.shields.io/badge/AWS-EKS-orange?logo=amazonaws&logoColor=white">
   <img src="https://img.shields.io/badge/Kubernetes-1.33-326CE5?logo=kubernetes&logoColor=white">
-  <img src="https://img.shields.io/badge/Docker-Containerized-2496ED?logo=docker&logoColor=white">
+  <img src="https://img.shields.io/badge/Docker-Containerization-2496ED?logo=docker&logoColor=white">
   <img src="https://img.shields.io/badge/Jenkins-CI%2FCD-D24939?logo=jenkins&logoColor=white">
   <img src="https://img.shields.io/badge/ArgoCD-GitOps-EF7B4D?logo=argo&logoColor=white">
   <img src="https://img.shields.io/badge/Prometheus-Monitoring-E6522C?logo=prometheus&logoColor=white">
   <img src="https://img.shields.io/badge/Grafana-Observability-F46800?logo=grafana&logoColor=white">
 </p>
 
-### A production-style cloud-native E-commerce deployment
+### A production-style cloud-native E-commerce platform
 ### with CI/CD, GitOps, self-healing, autoscaling and observability.
 
 </div>
@@ -25,57 +25,81 @@
 
 **ResilientOps** is an end-to-end DevOps and Cloud Engineering project
 that demonstrates how an E-commerce application can be deployed,
-monitored and automatically recovered using Kubernetes on AWS.
+managed, monitored and automatically recovered using Kubernetes
+on AWS.
 
-The project uses **Evershop** as the application and implements a
-complete cloud-native workflow using:
+The project uses **Evershop** as the application and integrates
+modern DevOps and cloud-native practices including:
 
+- ☁️ Amazon EKS
 - 🐳 Docker
-- ☁️ Amazon ECR
-- ☸️ Amazon EKS
+- 📦 Amazon ECR
 - 🔄 Jenkins CI/CD
 - 🚀 ArgoCD GitOps
 - ❤️ Kubernetes Self-Healing
 - 📈 Horizontal Pod Autoscaling
 - 📊 Prometheus
 - 📉 Grafana
+- 🚨 Alertmanager
 - 🐘 PostgreSQL
 - 🌐 AWS Load Balancer
+- 🔐 SonarQube
 
-The primary goal is to demonstrate **resilience, automation,
-scalability and observability** in a Kubernetes-based environment.
+The primary objective is to demonstrate **automation, resilience,
+scalability, continuous delivery and observability** in a
+Kubernetes-based cloud environment.
 
 ---
 
 # 🎥 Project Demo
 
-A short demonstration video showcases:
+<div align="center">
 
-- Application deployment
-- AWS EKS cluster
-- Kubernetes workloads
-- ArgoCD synchronization
-- HPA configuration
-- CPU-based autoscaling
-- Kubernetes self-healing
-- Prometheus/Grafana monitoring
-- AWS Load Balancer access
+## 🚀 ResilientOps – Evershop Deployment & Self-Healing Demo
 
-> 🎬 Demo video available in the project showcase / LinkedIn post.
+### ▶️ Click the link below to watch the project demo
+
+<a href="screenshots/Demo-video.mp4">
+
+
+
+</a>
+
+### 🎬 [▶️ Watch Full Demo Video](screenshots/Demo-video.mp4)
+
+</div>
+
+### Demo Highlights
+
+The short demonstration showcases:
+
+- ☁️ AWS EKS cluster
+- 🐳 Dockerized Evershop application
+- 📦 Amazon ECR
+- 🔄 Jenkins CI/CD
+- 🚀 ArgoCD GitOps
+- ☸️ Kubernetes deployment
+- ❤️ Self-healing
+- 📈 HPA autoscaling
+- 📊 Prometheus and Grafana
+- 🌐 AWS Load Balancer
+- 🐘 PostgreSQL
 
 ---
 
-# 🏗️ Architecture
+# 🏗️ System Architecture
 
-<p align="center">
-  <img src="architecture.png" width="1000">
-</p>
+<div align="center">
+
+<img src="architecture.png" width="1000">
+
+</div>
 
 ### Architecture Flow
 
 ```text
                          ┌──────────────────┐
-                         │     Developer    │
+                         │    Developer     │
                          └────────┬─────────┘
                                   │
                                   ▼
@@ -91,59 +115,61 @@ A short demonstration video showcases:
                                   │
                                   ▼
                          ┌──────────────────┐
-                         │    Docker Build  │
+                         │   Docker Build   │
                          └────────┬─────────┘
                                   │
                                   ▼
                          ┌──────────────────┐
-                         │   Amazon ECR     │
+                         │    Amazon ECR    │
                          └────────┬─────────┘
                                   │
                                   ▼
-              ┌─────────────────────────────────────┐
-              │             Amazon EKS              │
-              │                                     │
-              │   ┌─────────────────────────────┐   │
-              │   │          ArgoCD             │   │
-              │   │          GitOps             │   │
-              │   └──────────────┬──────────────┘   │
-              │                  │                  │
-              │                  ▼                  │
-              │       ┌──────────────────────┐      │
-              │       │ Kubernetes Deployment│      │
-              │       └──────────┬───────────┘      │
-              │                  │                  │
-              │        ┌─────────┴─────────┐        │
-              │        │                   │        │
-              │        ▼                   ▼        │
-              │   Evershop Pods       PostgreSQL   │
-              │        │                            │
-              │        ▼                            │
-              │      HPA                            │
-              │   1 → 3 Pods                         │
-              │                                     │
-              │   Self-Healing + Health Probes      │
-              └─────────────────────────────────────┘
-                               │
-                               ▼
-                     ┌───────────────────┐
-                     │   AWS LoadBalancer │
-                     └─────────┬─────────┘
-                               │
-                               ▼
-                           🌐 Users
+                  ┌────────────────────────────────┐
+                  │          Amazon EKS             │
+                  │                                │
+                  │       ┌──────────────┐         │
+                  │       │    ArgoCD    │         │
+                  │       │    GitOps    │         │
+                  │       └──────┬───────┘         │
+                  │              │                 │
+                  │              ▼                 │
+                  │     ┌──────────────────┐       │
+                  │     │    Deployment    │       │
+                  │     └────────┬─────────┘       │
+                  │              │                 │
+                  │       ┌──────┴──────┐          │
+                  │       │             │          │
+                  │       ▼             ▼          │
+                  │   Evershop      PostgreSQL     │
+                  │      Pods                       │
+                  │       │                         │
+                  │       ▼                         │
+                  │      HPA                        │
+                  │       │                         │
+                  │       ▼                         │
+                  │  Self-Healing                   │
+                  │                                │
+                  └──────────────┬─────────────────┘
+                                 │
+                                 ▼
+                       ┌───────────────────┐
+                       │  AWS LoadBalancer │
+                       └─────────┬─────────┘
+                                 │
+                                 ▼
+                              Users
 
 
-        Monitoring Layer
-        ─────────────────
+             Monitoring Layer
+             ────────────────
 
-        Kubernetes
-             │
-             ▼
-        Prometheus
-             │
-             ▼
-          Grafana
-             │
-             ▼
-        Visualization
+             Kubernetes
+                  │
+                  ▼
+             Prometheus
+                  │
+                  ▼
+               Grafana
+                  │
+                  ▼
+            Visualization
