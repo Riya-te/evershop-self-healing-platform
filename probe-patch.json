@@ -1,0 +1,33 @@
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "name": "evershop",
+            "livenessProbe": {
+              "httpGet": {
+                "path": "/",
+                "port": 3000
+              },
+              "initialDelaySeconds": 60,
+              "periodSeconds": 20,
+              "timeoutSeconds": 5,
+              "failureThreshold": 3
+            },
+            "readinessProbe": {
+              "httpGet": {
+                "path": "/",
+                "port": 3000
+              },
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "timeoutSeconds": 5,
+              "failureThreshold": 3
+            }
+          }
+        ]
+      }
+    }
+  }
+}
